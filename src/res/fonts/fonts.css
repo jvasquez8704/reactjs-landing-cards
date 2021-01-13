@@ -1,0 +1,30 @@
+@font-face {
+    font-family: 'neo_sans';
+    src: url(neosan-webfont.woff) format('woff');
+  }
+
+  @font-face {
+    font-family: 'neo_sans_bld';
+    src: url(Neo_Sans_Std_Bold.otf) format('woff');
+    font-weight: 800;
+    font-style: bold;
+  }
+  
+  @font-face {
+    font-family: 'neo_sans_rglr';
+    src: url(Neo_Sans_Std_Regular.otf) format('woff');
+  }
+  
+  @font-face {
+    font-family: 'neo_sans_ltght';
+    src: url(Neo_Sans_Std_Light.otf) format('woff');
+    /* font-weight: 400;
+    font-style: normal; */
+  }
+  
+  @font-face {
+    font-family: 'neo_sans_sm_ltght';
+    src: url(neosan-webfont.woff) format('woff');
+    font-weight: 200;
+    font-style: normal;
+  }

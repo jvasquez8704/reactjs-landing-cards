@@ -1,0 +1,518 @@
+
+@import '~antd/dist/antd.css';
+@import './res/fonts/fonts.css';
+
+body {
+  font-family: 'neo_sans';
+}
+
+html {
+  --antd-wave-shadow-color: #d9272e;
+}
+
+h1,h2,h3{
+  font-family: 'neo_sans_bld';
+}
+
+/* Header */
+.stc-header-top-row {
+  text-align: center;
+}
+
+.stc-landing-header {
+  max-width: 163px;
+}
+
+.ant-layout-header {
+  background: #b3282d;
+  color: #fff;
+}
+/* Content */
+.ant-layout-content {
+  padding: 4rem 0 1.5rem;
+}
+/* ********************************************************************************************************************************************* */
+.steps-action {
+  margin-top: 24px;
+}
+
+.ant-steps-item-process .ant-steps-item-icon {
+  background: #d9272e;
+}
+
+.ant-steps-item-process .ant-steps-item-icon {
+  border-color: #d9272e;
+}
+
+.ant-steps-item-finish .ant-steps-item-icon {
+  background-color: #fff;
+  border-color: #d9272e;
+}
+
+.ant-steps-item-finish .ant-steps-item-icon>.ant-steps-icon {
+  color: #d9272e;
+}
+
+.ant-steps-navigation .ant-steps-item:before {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  display: inline-block;
+  width: 0;
+  height: 3px;
+  background-color: #d9272e;
+  transition: width .3s,left .3s;
+  transition-timing-function: ease-out;
+  content: "";
+}
+
+.ant-steps-item-title {
+  white-space: initial;
+  line-height: normal;
+}
+
+.ant-steps-item-error > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title{
+  white-space: normal;
+  color: #ff4d4f;
+  font-family: 'neo_sans_ltght';
+  font-weight: 600;
+  font-size: 14px;
+}
+/* ********************************************************************************************************************************************** */
+/* general steps */
+/* ************ */
+
+/* #components-layout-demo-side .logo {
+  height: 32px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 16px;
+} */
+
+/* ach feature */
+.text-agreement {
+  text-align: justify;
+  padding: 2.5rem;
+}
+
+/**************************************************** Content and Steps ***********************************************/
+.stc-content {
+  margin: 2rem 0;
+}
+
+.stc-content .ant-card.stc-card-widget.ant-card-bordered .ant-card-head-title {
+  font-size: 1rem;
+  font-weight: bolder;
+  color: white;
+  text-align: center;
+  font-family: 'neo_sans_bld';
+}
+
+.stc-content .ant-card.stc-card-widget.ant-card-bordered {
+  box-shadow: 0 0 5px 5px rgba(0,0,0,.03);
+  border-radius: 3rem 3rem 3rem 3rem;
+  width: 84%;
+  margin: 0 auto;
+}
+
+.stc-content .ant-card.stc-card-widget.ant-card-bordered .ant-card-head {
+  background: #d22630;
+  padding: 1rem;
+  border-radius: 3rem 3rem 0 0;
+}
+.stc-content .ant-card.stc-card-widget.ant-card-bordered .ant-card-body{
+  border-radius: 3rem;
+}
+
+/********************************************** Wrapper and form ****************************************************/
+.stc-form {
+  margin-top: 16px;
+  border: 1px dashed #e9e9e9;
+  border-radius: 20px;
+  background-color: #fafafa;
+  min-height: 200px;
+  text-align: center;
+  padding: 3rem 0;
+  margin: 2rem 8rem 3rem;
+}
+
+.stc-form label{
+  font-family: 'neo_sans_bld';
+  color: rgba(0,0,0,.85);
+}
+
+.stc-form input{
+  font-family: 'neo_sans_ltght';
+  font-weight: 600;
+}
+
+.ant-select{
+  font-family: 'neo_sans_ltght';
+  font-weight: 700;
+}
+
+.ant-select-selection__rendered {
+  line-height: 40px;
+}
+
+.ant-select-selection-selected-value {
+  float: none;
+}
+
+/* .ant-form-vertical .ant-form-item-control{
+  line-height: 0;
+} */
+
+.form-content {
+  padding-top: 16px;
+  border: 1px dashed #e9e9e9;
+  border-radius: 20px;
+  background-color: #fafafa;
+  min-height: 200px;
+  text-align: center;
+  min-height: 31rem;
+}
+
+/* .form-content .noah {
+  margin: 2rem 14rem;
+} */
+
+.form-content .ant-descriptions-item-label {
+  font-weight: bold;
+}
+/************************ Form components **********************/
+.stc-button {
+  color: #fff;
+  border-radius: 10px;
+  font-size: medium;
+  font-family: 'neo_sans_bld';
+  padding: 0.6rem 2rem 1.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-radius: 10px;
+}
+
+.stc-button-default {
+  border-radius: 10px;
+  padding: 0.6rem 2rem 1.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-family: 'neo_sans_bld';
+}
+
+.ant-btn-primary {
+   background-color: #d9272e;
+  border-color: #d9272e;
+}
+
+.ant-btn-primary:hover, .ant-btn-primary:focus {
+  color: #fff;
+  background: #e64e4e;
+  border-color: #e64e4e;
+}
+
+.ant-input, .ant-select, .ant-select-selection.ant-select-selection--single {
+  height: 2.5rem;
+  border-radius: 0.8rem;
+  font-size: 16px;
+}
+
+.ant-input:hover, .ant-input:focus, .ant-select:hover, .ant-select:focus, .ant-select-selection.ant-select-selection--single:hover, .ant-select-selection.ant-select-selection--single:focus {
+  border-color: #d9272ec4;
+  -webkit-box-shadow: 0 0 0 2px rgb(255 24 77 / 20%);
+  box-shadow: 0 0 0 2px rgb(255 24 99 / 20%);
+}
+
+.stc-button-default:hover, .stc-button-default:focus {
+  color: #e64e4e;
+  border-color: #e64e4e;
+}
+
+.ant-form label {
+  font-weight: bolder;
+}
+/************************************************************** Footer *****************************************************************/
+.ant-layout-footer {
+  background: #d22630;
+  color: #fff;
+}
+.ant-layout-footer {
+  padding: 24px 0 0;
+}
+
+.stc-footer-base {
+  padding: 1rem 0 1.25rem;
+  margin-top: 0.5rem;
+  background: #b3282d;
+}
+
+.stc-footer {
+   color: #fff;
+  }
+
+.stc-footer .ant-row .ant-col {
+text-align: center;
+}
+
+.stc-footer-site{
+  /* margin-top: 1rem; */
+  text-align: center;
+  font-size: 1rem;
+}
+.stc-address-title { 
+  color: #fff !important;
+  font-size: 0.9rem !important;
+}
+
+.stc-address-text {
+  display: block;
+  margin: 0.5rem;
+  font-family: 'neo_sans_ltght';
+  font-weight: 600;
+  color: #fff;
+}
+
+.stc-link, .stc-link:hover {
+  color: #fff;
+}
+.stc-footer-icon {
+  font-size: 2.25rem;
+}
+
+.stc-address-site, .stc-address-site:hover{
+  font-family: 'neo_sans_ltght';
+  color: #fff;
+  font-weight: 600;
+}
+/************************************+ Tabs Menu ************************************************/
+.stc-head-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; 
+  background-color:#d9272e;;
+  /*background-color:#000;
+  border-radius:40px */
+  border-radius: 3rem;
+  width: 83%;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.stc-main-title {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.stc-card-title {
+  text-align: center;
+  /* background: pink; */
+}
+
+.stc-card-title h3 {
+  font-size: 1.4rem;
+  color: rgba(0,0,0,.85);
+  line-height: 1.35;
+}
+
+.stc-tabs.ant-row.ant-row-center.ant-row-middle {
+  /* background-color: green; */
+  background-color: #d9272e;
+  padding: 0 0 1rem;
+}
+
+.stc-tabs.ant-row.ant-row-center.ant-row-middle .stc-main-title h1 {
+  font-size: 3rem;
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: .5rem;
+  color: #fff;
+  font-weight: 600;
+  line-height: 1.23;
+  white-space: initial;
+}
+
+/* Tab */
+/************************************************************** tabs *************************************************/
+.stc-tab-border {
+  padding: 1.5px 6px;
+  flex: 1 1 auto;
+}
+
+.stc-icon-size {
+  height: 100px;
+  width: 100px;
+  margin: 0 auto;
+}
+
+.stc-tab {
+  background: rgb(236, 230, 230);
+  padding: 0.5rem;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 40px;
+  border: 5px solid #d9272e;
+}
+
+.stc-tab .ant-card-meta-title {
+  white-space: initial;
+  font-family: 'neo_sans_rglr';
+  font-weight: 700;
+  color: #495057;
+}
+
+.stc-selected-tab .stc-card-selected-border {
+  text-align: center;
+  width: 60%;
+  margin: 0 auto;
+  border-bottom: 3px solid #fff;
+  padding: .4rem;
+  -webkit-animation: fadein 4s;
+  animation: fadein 4s;
+}
+/* .stc-selected-tab .stc-tab {
+  padding-bottom: 0.3rem;
+} */
+
+/********************************************************** Media queries **********************************************************/
+/* 
+  ##Desktops
+  ##Screen = 1281px to higher resolution desktops
+*/
+@media (min-width: 1281px) {
+  /* CSS */
+}
+
+/* 
+  ##Laptops, Desktops
+  ##Screen = B/w 1025px to 1280px
+*/
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+ /* css */
+ .ant-col-xl-6 {
+  width: 26%;
+}
+}
+
+/* 
+  ##Tablets, Ipads (portrait)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .stc-form {
+    margin: 0;
+  }
+}
+
+
+/* 
+  ##Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+@media (min-width: 481px) and (max-width: 767px) {
+  .stc-tabs.ant-row.ant-row-center.ant-row-middle .stc-main-title h1 {
+    font-size: 1rem;
+  }
+  /* ******************************************************** */
+  .stc-content .ant-card.stc-card-widget.ant-card-bordered {
+    width: 95%;
+  }  
+  .stc-form {
+    margin: 0;
+  }
+  /* ******************* */
+  .ant-steps-horizontal.ant-steps-label-horizontal {
+    display: flex;
+  }
+  .ant-steps {
+    display: flex;
+  }
+  .ant-steps-navigation .ant-steps-item {
+    overflow: visible !important;
+    text-align: center;
+  }
+  .ant-steps-item {
+    display: inline-block !important;
+  }
+
+  /* ******************** */
+  .stc-tab {
+    border-radius: 20px;
+  }
+  .stc-tab .ant-card-body {
+    display: none;
+  }
+  .stc-icon-size {
+    height: 55px;
+    width: 55px;
+  }
+
+  /* ******************************+ */
+  .ant-row.stc-head-tabs {
+    width: 100%;
+  }
+  .stc-selected-tab .stc-card-selected-border {
+    padding: 0.3rem;
+  } 
+}
+
+/* 
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+
+@media (min-width: 320px) and (max-width: 480px) {
+  .stc-tabs.ant-row.ant-row-center.ant-row-middle .stc-main-title h1 {
+    font-size: 1rem;
+  }
+  /* ******************************************************** */
+  .stc-content .ant-card.stc-card-widget.ant-card-bordered {
+    width: 95%;
+  }  
+  .stc-form {
+    margin: 0;
+  }
+  /* *****************************************************+ */
+  .ant-steps-horizontal.ant-steps-label-horizontal {
+    display: flex;
+  }
+  .ant-steps {
+    display: flex;
+  }
+  .ant-steps-navigation .ant-steps-item {
+    overflow: visible !important;
+    text-align: center;
+  }
+  .ant-steps-item {
+    display: inline-block !important;
+  }
+  /* ******************************+ */
+  .stc-tab {
+    border-radius: 20px;
+  }
+  .stc-tab .ant-card-body {
+    display: none;
+  }
+  .stc-icon-size {
+    height: 55px;
+    width: 55px;
+  }
+  .ant-row.stc-head-tabs {
+    width: 100%;
+  }
+
+  /* ******************************+ */
+  .ant-row.stc-head-tabs {
+    width: 100%;
+  }
+  .stc-selected-tab .stc-card-selected-border {
+    padding: 0.2rem;
+  } 
+
+  .ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-tail::after {
+    background-color: #d9272e;
+  }
+}
+
+
+
