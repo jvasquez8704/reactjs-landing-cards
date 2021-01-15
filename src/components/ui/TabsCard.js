@@ -97,7 +97,7 @@ const TabsCard = () => {
     },
   ];
 
-  const resetJourney = [
+  const blockJourney = [
     {
       key: 'init',
       content: <Verify />,
@@ -128,8 +128,7 @@ const TabsCard = () => {
     },
     {
       key: 'limitUpdater',
-       content: <PIBlocker />,
-      // content: <LimitUpdater />,
+      content: <LimitUpdater />,
     },
     {
       key: 'success',
@@ -160,7 +159,7 @@ const TabsCard = () => {
   const journeys = {
     tab1: unlockJourney,
     tab2: achJourney,
-    tab3: resetJourney,
+    tab3: blockJourney,
     tab4: limitUpdater,
     tab5: queryMovements
   };

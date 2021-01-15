@@ -145,6 +145,47 @@ export const setStatusCard = (identity, token, card) => {
     }
 }
 
+export const setLimitCard = (identity, token, card, amount) => {
+    return async( dispatch ) => {
+        
+        let { unlockUser : req } = requests;
+        req.request.header.transaction = 2009;
+        req.request.header.step = 3;
+        req.request.header.token = token;
+        
+        req.request.data.id = identity;
+        req.request.data.type = card.type;
+        req.request.data.product = card.product;
+        req.request.data.reason = '?';
+        req.request.data.locationProcedure = 'AA';
+        req.request.data.locationRetirement = 'AA';
+        req.request.data.user = 'TES03262';
+        req.request.data.amount = amount;
+
+        dispatch(setLoading());
+
+        try {
+            const resp = await unsecurefetch('CambiaLimiteTarjetaCredito', req, 'POST');
+            const body = await resp.json();
+            const { response: { status, data } } = body;
+
+            if (status.code === '0000') {
+                const { token } = status;
+                dispatch(getInfo({...data, token}));
+                dispatch(updateStep(3));
+                dispatch(unsetError());
+            } else {
+                dispatch(setError(status.message));
+            }
+            dispatch(setLoading());
+        } catch (err) {
+            console.log('catch error: ', err);
+            dispatch(setLoading());
+            dispatch(setError(err + ''));
+        }
+    }
+}
+
 export const setAchAccount = account => ({
     type: types.setAccount,
     payload: account

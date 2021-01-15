@@ -1,71 +1,74 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'; 
 import { Form, Button } from 'antd';
-//import { useForm as validatorForm } from "react-hook-form";
 
 import { setError, unsetError, updateStep } from '../../actions/ui';
 import UserInfoTable from '../ach/UserInfoTable';
 import CustomSelect from '../ui/form/CustomSelect';
-import { getAgreement, setAchAccount } from '../../actions/ach';
+import { setLimitCard, setAchAccount } from '../../actions/ach';
 import { useForm } from '../../hooks/useForm';
 import CustomInput from '../ui/form/CustomInput';
-//import CustomDate from '../ui/form/CustomDate';
-//import { getKeys, groupByYear } from '../../helpers/util';
 
 const ManagementPin = () => {
 
     const dispatch = useDispatch();
-    const data = useSelector(({ ach, ui }) => ({ ach, download: ui.download }));
-    const { ach:info, download } = data;
+    const data = useSelector(({ ach, ui, auth }) => ({ ach, download: ui.download, auth }));
+    const { ach:info, download, auth } = data;
     const accounts = info.products ? info.products.productsItems : [];
     const types = info.cardTypes;
     const reasonUpdateLimit = info.reasonUpdateLimit;
-    const [{ desc, pin }, handleInputChange] = useForm({
-        desc:'', pin:''
-    });
-    // const periods = info.periods ? groupByYear(info.periods.periodsItems) : [];
-    // const periodKeys = getKeys(periods);
+    const [{ amount }, handleInputChange] = useForm({amount:''});
     const [account, setAccount] = useState('');
-    const [year, setYear] = useState('');
-    const [month, setMonth] = useState('');
+    const [card, setCard] = useState({});
     const [type, setType] = useState('');
+    const [reason, setReason] = useState('');
 
-    //const { register, handleSubmit, errors , control } = validatorForm();
 
-    const handleOnSubmit = e => {
+    const handleSubmit = e => {
         e.preventDefault();
-        const { token, customerOCBUser } = info;
-        // if (year === '') {
-        //     dispatch(setError('Selecciona año'));
-        //     return;
-        // }
+        const { identity } = auth;
+        const { token } = info;
+        if (type === '') {
+            dispatch(setError('Selecciona tipo de tarjeta'));
+            return;
+        }
 
-        // if (month === '') {
-        //     dispatch(setError('Selecciona mes'));
-        //     return;
-        // }
+        if (account === '') {
+            dispatch(setError('Selecciona una tarjeta'));
+            return;
+        }
 
-        // if (type === '') {
-        //     dispatch(setError('Selecciona tipo de tarjeta'));
-        //     return;
-        // }
+        if (reason === '') {
+            dispatch(setError('Ingresa un motivo'));
+            return;
+        }
 
-        // if (account === '') {
-        //     dispatch(setError('Selecciona una tarjeta'));
-        //     return;
-        // }
+        if (amount === '') {
+            dispatch(setError('Ingresa nuevo limite'));
+            return;
+        }
 
-        //dispatch(getAgreement(token, account , customerOCBUser, year, month , type)); 
-        dispatch(updateStep(3));
-    }
-
-    const handleChange = value => {
-        dispatch(setAchAccount(value));
-        setAccount(value);
+        dispatch(setLimitCard(identity, token, card, amount));
     }
 
     const handleChangeType = value => {
         setType(value);
+        console.log('Type Card ',value);
+    }
+    
+    const handleChangeReason = value => {
+        setReason(value);
+        console.log('Reason ',value);
+
+    }
+
+    const handleChangeCard = value => {
+        const cardResult = accounts.filter((acc) => acc.product === value);
+        if (cardResult && Array.isArray(cardResult) && cardResult.length === 1) {
+          setCard(cardResult[0]);
+        }
+        dispatch(setAchAccount(value));
+        setAccount(value);
     }
     
     const handleClick = () => {
@@ -74,7 +77,6 @@ const ManagementPin = () => {
     }
 
     const handleBack = () => {
-        //dispatch(activeDownload(false));
         dispatch(updateStep(0));
         dispatch(unsetError());      
     }
@@ -84,8 +86,7 @@ const ManagementPin = () => {
             name="basic"
             layout="vertical"
             className="stc-form"
-            //onSubmit={handleSubmit(handleOnSubmit)}
-            onSubmit={handleOnSubmit}
+            onSubmit={handleSubmit}
         >
             <Form.Item name="info-item">
                <UserInfoTable info={info} />
@@ -98,7 +99,6 @@ const ManagementPin = () => {
                 iPlaceholder="Selecciona tipo de tarjeta"
                 items={types}
                 iHandleSelectChange={handleChangeType}
-                //icontrol={control}
                 irules={{
                     required: {
                         value: true,
@@ -109,12 +109,11 @@ const ManagementPin = () => {
             
             <CustomSelect
                 fieldName="account-item"
-                iLabel="Tarjeta a Bloquear"
+                iLabel="Tarjeta"
                 errMjs="Por favor selecciona una tarjeta"
                 iPlaceholder="Selecciona tarjeta a bloquear"
                 items={accounts}
-                iHandleSelectChange={handleChange}
-                //icontrol={control}
+                iHandleSelectChange={handleChangeCard}
                 irules={{
                     required: {
                         value: true,
@@ -129,8 +128,7 @@ const ManagementPin = () => {
                 errMjs="Por favor selecciona un motivo"
                 iPlaceholder="Selecciona un motivo"
                 items={reasonUpdateLimit}
-                iHandleSelectChange={handleChange}
-                //icontrol={control}
+                iHandleSelectChange={handleChangeReason}
                 irules={{
                     required: {
                         value: true,
