@@ -44,12 +44,13 @@ const TabsCard = () => {
     {
       key: 'tab3',
       img: img3,
-      desc: "Bloqueo de Tarjeta ..."
+      desc: "Bloqueo de Tarjeta"
     },
     {
       key: 'tab4',
       img: img3,
-      desc: "Modificación de Límite de Crédito"
+      // desc: "Modificación de Límite de Crédito"
+      desc: "Límite de Crédito"
     },
     {
       key: 'tab5',
@@ -108,7 +109,7 @@ const TabsCard = () => {
     },
     {
       key: 'BlockPI',
-      content: <PIBlocker />,
+       content: <PIBlocker />,
     },
     {
       key: 'success',
@@ -127,7 +128,8 @@ const TabsCard = () => {
     },
     {
       key: 'limitUpdater',
-      content: <LimitUpdater />,
+       content: <PIBlocker />,
+      // content: <LimitUpdater />,
     },
     {
       key: 'success',
@@ -146,7 +148,8 @@ const TabsCard = () => {
     },
     {
       key: 'queryMovements',
-      content: <QueryMovements />,
+       content: <PIBlocker />,
+      // content: <QueryMovements />,
     },
     {
       key: 'success',
