@@ -1,80 +1,66 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'; 
 import { Form, Button } from 'antd';
-//import { useForm as validatorForm } from "react-hook-form";
 
 import { setError, unsetError, updateStep } from '../../actions/ui';
 import UserInfoTable from '../ach/UserInfoTable';
 import CustomSelect from '../ui/form/CustomSelect';
-import { getAgreement, setAchAccount } from '../../actions/ach';
+import { setAchAccount, setStatusCard } from '../../actions/ach';
 import { useForm } from '../../hooks/useForm';
 import CustomInput from '../ui/form/CustomInput';
-//import CustomDate from '../ui/form/CustomDate';
-//import { getKeys, groupByYear } from '../../helpers/util';
 
-const ManagementPin = () => {
+
+const PIBlocker = () => {
 
     const dispatch = useDispatch();
-    const data = useSelector(({ ach, ui }) => ({ ach, download: ui.download }));
-    const { ach:info, download } = data;
+    const data = useSelector(({ ach, ui, auth }) => ({ ach, download: ui.download, auth }));
+    const { ach:info, download, auth } = data;
     const accounts = info.products ? info.products.productsItems : [];
     const types = info.cardTypes;
     const reasonsBlock = info.reasonBlock;
-    const [{ desc, pin }, handleInputChange] = useForm({
-        desc:'', pin:''
-    });
-    // const periods = info.periods ? groupByYear(info.periods.periodsItems) : [];
-    // const periodKeys = getKeys(periods);
+    const [{ reason }, handleInputChange] = useForm({reason:''});
     const [account, setAccount] = useState('');
-    const [year, setYear] = useState('');
-    const [month, setMonth] = useState('');
+    const [status, setStatus] = useState('');
+    const [card, setCard] = useState({});
     const [type, setType] = useState('');
-
-    //const { register, handleSubmit, errors , control } = validatorForm();
 
     const handleOnSubmit = e => {
         e.preventDefault();
-        const { token, customerOCBUser } = info;
-        // if (year === '') {
-        //     dispatch(setError('Selecciona año'));
-        //     return;
-        // }
+        const { identity } = auth;
+        const { token } = info;
+        if (account === '') {
+            dispatch(setError('Selecciona una tarjeta'));
+            return;
+        }
 
-        // if (month === '') {
-        //     dispatch(setError('Selecciona mes'));
-        //     return;
-        // }
+        if (reason === '') {
+            dispatch(setError('Ingresa un motivo'));
+            return;
+        }
 
-        // if (type === '') {
-        //     dispatch(setError('Selecciona tipo de tarjeta'));
-        //     return;
-        // }
-
-        // if (account === '') {
-        //     dispatch(setError('Selecciona una tarjeta'));
-        //     return;
-        // }
-
-        //dispatch(getAgreement(token, account , customerOCBUser, year, month , type)); 
-        dispatch(updateStep(3));
+        if (type === '') {
+            dispatch(setError('Selecciona tipo de Bloqueo'));
+            return;
+        }
+        dispatch(setStatusCard(identity, token, card));
     }
 
     const handleChange = value => {
-        dispatch(setAchAccount(value));
-        setAccount(value);
-    }
-
-    const handleChangeType = value => {
         setType(value);
     }
-    
-    const handleClick = () => {
-        dispatch(unsetError());      
-        window.open(info.urlChecks, "_blank");    
-    }
+
+    const handleChangeCard = value => {
+      const cardResult = accounts.filter((acc) => acc.product === value);
+      if (cardResult && Array.isArray(cardResult) && cardResult.length === 1) {
+        const { status } = cardResult[0];
+        setStatus(status);
+        setCard(cardResult[0]);
+      }
+      dispatch(setAchAccount(value));
+      setAccount(value);
+    };
 
     const handleBack = () => {
-        //dispatch(activeDownload(false));
         dispatch(updateStep(0));
         dispatch(unsetError());      
     }
@@ -84,7 +70,6 @@ const ManagementPin = () => {
             name="basic"
             layout="vertical"
             className="stc-form"
-            //onSubmit={handleSubmit(handleOnSubmit)}
             onSubmit={handleOnSubmit}
         >
             <Form.Item name="info-item">
@@ -92,29 +77,12 @@ const ManagementPin = () => {
             </Form.Item>
 
             <CustomSelect
-                fieldName="doc-type-item"
-                iLabel="Tipo de Tarjeta"
-                errMjs="Por favor selecciona tipo de tarjeta"
-                iPlaceholder="Selecciona tipo de tarjeta"
-                items={types}
-                iHandleSelectChange={handleChangeType}
-                //icontrol={control}
-                irules={{
-                    required: {
-                        value: true,
-                        message: 'Se ocupa el documento'
-                    }
-                }}
-            />
-            
-            <CustomSelect
                 fieldName="account-item"
                 iLabel="Tarjeta a Bloquear"
                 errMjs="Por favor selecciona una tarjeta"
                 iPlaceholder="Selecciona tarjeta a bloquear"
                 items={accounts}
-                iHandleSelectChange={handleChange}
-                //icontrol={control}
+                iHandleSelectChange={handleChangeCard}
                 irules={{
                     required: {
                         value: true,
@@ -123,7 +91,7 @@ const ManagementPin = () => {
                 }}
             />
 
-            <CustomInput fieldName="desc"
+            <CustomInput fieldName="reason"
                 iLabel="Motivo de Bloqueo"
                 errMjs="Por favor ingresa motivo"
                 iPlaceholder="Ingresa motivo de bloqueo"
@@ -137,7 +105,6 @@ const ManagementPin = () => {
                 iPlaceholder="Selecciona un tipo de bloqueo"
                 items={reasonsBlock}
                 iHandleSelectChange={handleChange}
-                //icontrol={control}
                 irules={{
                     required: {
                         value: true,
@@ -150,7 +117,7 @@ const ManagementPin = () => {
 
             <Form.Item>
                 <Button type="primary" className="stc-button" htmlType="submit">
-                    Siguiente
+                    {`${ status === '' ? 'Siguiente': status ==! '00' ? 'Bloquear' : 'Desbloquear'}`}                 
                 </Button>
             </Form.Item>
             <Form.Item>
@@ -163,4 +130,4 @@ const ManagementPin = () => {
     );
 };
 
-export default ManagementPin;
+export default PIBlocker;
