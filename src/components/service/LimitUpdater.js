@@ -28,10 +28,6 @@ const ManagementPin = () => {
         e.preventDefault();
         const { identity } = auth;
         const { token } = info;
-        if (type === '') {
-            dispatch(setError('Selecciona tipo de tarjeta'));
-            return;
-        }
 
         if (account === '') {
             dispatch(setError('Selecciona una tarjeta'));
@@ -49,11 +45,6 @@ const ManagementPin = () => {
         }
 
         dispatch(setLimitCard(identity, token, card, amount));
-    }
-
-    const handleChangeType = value => {
-        setType(value);
-        console.log('Type Card ',value);
     }
     
     const handleChangeReason = value => {
@@ -91,21 +82,6 @@ const ManagementPin = () => {
             <Form.Item name="info-item">
                <UserInfoTable info={info} />
             </Form.Item>
-
-            <CustomSelect
-                fieldName="doc-type-item"
-                iLabel="Tipo de Tarjeta"
-                errMjs="Por favor selecciona tipo de tarjeta"
-                iPlaceholder="Selecciona tipo de tarjeta"
-                items={types}
-                iHandleSelectChange={handleChangeType}
-                irules={{
-                    required: {
-                        value: true,
-                        message: 'Se ocupa el documento'
-                    }
-                }}
-            />
             
             <CustomSelect
                 fieldName="account-item"
