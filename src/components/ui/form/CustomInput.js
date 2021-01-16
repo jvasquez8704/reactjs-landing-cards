@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col, Form, Input } from 'antd';
 
-const CustomInput = ({fieldName, iLabel, errMjs, iPlaceholder, ihandleInputChange, iReadOnly, iDefaultValue}) => {
+const CustomInput = ({fieldName, iLabel, errMjs, iPlaceholder, ihandleInputChange, iReadOnly, ionKeyPress, ionKeyDown}) => {
     return (
         <Row type="flex" justify="center">
             <Col xs={22} sm={22} md={16} lg={16} xl={14} xxl={14}>
@@ -21,6 +21,8 @@ const CustomInput = ({fieldName, iLabel, errMjs, iPlaceholder, ihandleInputChang
                     placeholder={iPlaceholder}
                     onChange={ihandleInputChange}
                     readOnly={iReadOnly}
+                    onKeyPress={ionKeyPress}
+                    onKeyDown={ionKeyDown}
                 />
             </Form.Item>
             </Col>

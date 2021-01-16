@@ -1,81 +1,89 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'; 
 import { Form, Button } from 'antd';
-//import { useForm as validatorForm } from "react-hook-form";
 
 import { setError, unsetError, updateStep } from '../../actions/ui';
 import UserInfoTable from '../ach/UserInfoTable';
 import CustomSelect from '../ui/form/CustomSelect';
-import { getAgreement, getUserInfo, setAchAccount } from '../../actions/ach';
+import { setPin, setAchAccount } from '../../actions/ach';
 import { useForm } from '../../hooks/useForm';
 import CustomInput from '../ui/form/CustomInput';
-//import CustomDate from '../ui/form/CustomDate';
-//import { getKeys, groupByYear } from '../../helpers/util';
 
 const ManagementPin = () => {
 
     const dispatch = useDispatch();
-    const data = useSelector(({ ach, ui }) => ({ ach, download: ui.download }));
-    const { ach:info, download } = data;
+    const data = useSelector(({ ach, ui, auth }) => ({ ach, auth }));
+    const { ach:info, auth } = data;
     const accounts = info.products ? info.products.productsItems : [];
     const types = info.cardTypes;
-    const [{ desc, pin }, handleInputChange] = useForm({
-        desc:'', pin:''
-    });
-    // const periods = info.periods ? groupByYear(info.periods.periodsItems) : [];
-    // const periodKeys = getKeys(periods);
+    const [{ pin , reason }, handleInputChange] = useForm({pin:'', reason: ''});
     const [account, setAccount] = useState('');
-    const [year, setYear] = useState('');
-    const [month, setMonth] = useState('');
-    const [type, setType] = useState('');
-
-    //const { register, handleSubmit, errors , control } = validatorForm();
+    const [card, setCard] = useState({});
+    const [temp, setTemp] = useState('')
 
     const handleOnSubmit = e => {
         e.preventDefault();
-        const { token, customerOCBUser } = info;
-        // if (year === '') {
-        //     dispatch(setError('Selecciona año'));
-        //     return;
-        // }
+        const { token } = info;
+        const { identity } = auth;
 
-        // if (month === '') {
-        //     dispatch(setError('Selecciona mes'));
-        //     return;
-        // }
+        if (account === '') {
+            dispatch(setError('Selecciona una tarjeta'));
+            return;
+        }
 
-        // if (type === '') {
-        //     dispatch(setError('Selecciona tipo de tarjeta'));
-        //     return;
-        // }
+        if (reason === '') {
+            dispatch(setError('Ingresa un motivo'));
+            return;
+        }
 
-        // if (account === '') {
-        //     dispatch(setError('Selecciona una tarjeta'));
-        //     return;
-        // }
+        if (pin === '') {
+            dispatch(setError('Ingresa nuevo pin'));
+            return;
+        }
 
-        //dispatch(getAgreement(token, account , customerOCBUser, year, month , type)); 
-        dispatch(updateStep(3));
+        dispatch(setPin(identity, token, card , pin)); 
     }
 
-    const handleChange = value => {
+    const handleChangeCard = value => {
+        const cardResult = accounts.filter((acc) => acc.product === value);
+        if (cardResult && Array.isArray(cardResult) && cardResult.length === 1) {
+          setCard(cardResult[0]);
+        }
         dispatch(setAchAccount(value));
         setAccount(value);
     }
 
-    const handleChangeType = value => {
-        setType(value);
-    }
-    
-    const handleClick = () => {
-        dispatch(unsetError());      
-        window.open(info.urlChecks, "_blank");    
-    }
-
     const handleBack = () => {
-        //dispatch(activeDownload(false));
         dispatch(updateStep(0));
         dispatch(unsetError());      
+    }
+
+    const handleKeyPress = e => {
+        if (e.target.name === 'pin' && temp.length > 3) {
+            e.preventDefault();
+            return;
+        }
+
+        if (e.target.name === 'pin' && isNaN(e.key)) {
+            e.preventDefault();
+            return;
+        }
+        let dataTemp = temp + e.key;
+        e.target.name === 'pin' && setTemp(dataTemp);
+    }
+    
+    const handleKeyDown = e => {
+        let key = e.which || e.keyCode || e.charCode;
+        // if (!validator.isNumeric(e.key)) {
+        //     e.preventDefault();
+        //     return;
+        // }
+        if(e.target.name === 'pin' && key === 8){
+            let dataTemp = temp;
+            if(dataTemp.length > 0){
+                setTemp(dataTemp.slice(0, -1)); 
+            }
+        }    
     }
     
     return (
@@ -83,28 +91,26 @@ const ManagementPin = () => {
             name="basic"
             layout="vertical"
             className="stc-form"
-            //onSubmit={handleSubmit(handleOnSubmit)}
             onSubmit={handleOnSubmit}
         >
             <Form.Item name="info-item">
                <UserInfoTable info={info} />
             </Form.Item>
 
-            <CustomSelect
+            {/* <CustomSelect
                 fieldName="doc-type-item"
                 iLabel="Tipo de Tarjeta"
                 errMjs="Por favor selecciona tipo de tarjeta"
                 iPlaceholder="Selecciona tipo de tarjeta"
                 items={types}
                 iHandleSelectChange={handleChangeType}
-                //icontrol={control}
                 irules={{
                     required: {
                         value: true,
                         message: 'Se ocupa el documento'
                     }
                 }}
-            />
+            /> */}
             
             <CustomSelect
                 fieldName="account-item"
@@ -112,8 +118,7 @@ const ManagementPin = () => {
                 errMjs="Por favor selecciona una tarjeta"
                 iPlaceholder="Selecciona una Tarjeta"
                 items={accounts}
-                iHandleSelectChange={handleChange}
-                //icontrol={control}
+                iHandleSelectChange={handleChangeCard}
                 irules={{
                     required: {
                         value: true,
@@ -122,7 +127,7 @@ const ManagementPin = () => {
                 }}
             />
 
-            <CustomInput fieldName="desc"
+            <CustomInput fieldName="reason"
                 iLabel="Motivo solicitud"
                 errMjs="Por favor ingresa motivo"
                 iPlaceholder="Ingresa motivo de solicitud"
@@ -134,6 +139,8 @@ const ManagementPin = () => {
                 errMjs="Por favor ingresa Pin"
                 iPlaceholder="Sin espacios ni guiones"
                 ihandleInputChange={handleInputChange}
+                ionKeyPress={handleKeyPress}
+                ionKeyDown={handleKeyDown}
             />
 
             <Form.Item>
@@ -145,12 +152,6 @@ const ManagementPin = () => {
                 <Button type="default" className="btn stc-button-default" htmlType="button" onClick={handleBack}>
                     Atrás
                 </Button>
-            </Form.Item>
-            <Form.Item>
-                {/* <a href="https://qas.bancatlan.hn/pdf/comunicado-truncamiento-cheques.pdf" target="_blank" rel="noopener noreferrer" style={{color:'#d9272e'}}>¿ Que es un cheque Truncado ?</a> */}
-                {/* <a href="https://i.picsum.photos/id/530/200/300.jpg?hmac=pl2pzOmYOiMa6E_Ddf_SFQVGjDvmZ1xgj-JznVHuUsg" target="_blank" rel="noopener noreferrer" style={{color:'#d9272e'}}>¿ Que es un cheque Truncado ?</a> */}
-                {/* <a href="http://homepages.inf.ed.ac.uk/neilb/TestWordDoc.doc" rel="noopener noreferrer" style={{color:'#d9272e'}}>¿ Que es un cheque Truncado ?</a> */}
-                {/* <a href="https://www.cmu.edu/blackboard/files/evaluate/tests-example.xls" rel="noopener noreferrer" style={{color:'#d9272e'}}>¿ Que es un cheque Truncado ?</a> */}
             </Form.Item>
         </Form>
 
