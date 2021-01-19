@@ -1,31 +1,29 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import Content from './Content';
+
+import { setTab, updateStep } from '../../actions/ui';
 
 import img1 from '../../res/img/unlock.svg';
 import img2 from '../../res/img/ach.svg';
 import img3 from '../../res/img/reset.svg';
 
+import Content from './Content';
 import Verify from '../common/Verify';
 import Success from '../common/Success';
 import Unlock from '../unlock/UnlockUser';
-import EnableACH from '../ach/EnableACH';
-import AgreementACH from '../ach/AgreementACH';
-import ResetPassword from '../reset/ResetPassword';
-
-import { setTab, updateStep } from '../../actions/ui';
 import Tabs from '../custom/Tabs';
 import ManagementPin from '../service/ManagementPin';
 import PIBlocker from '../service/PIBlocker';
 import LimitUpdater from '../service/LimitUpdater';
+import InfoUpdater from '../service/InfoUpdater';
 import QueryMovements from '../service/QueryMovements';
 
 const TabsCard = () => {
   const dispatch = useDispatch();
   const [state, setState] = useState({
     key: 'tab1',
-    description: 'Asignación / Cambio de PIN'
+    description: 'Asignación/Cambio de PIN'
   });
 
   const { key, description } = state;
@@ -34,7 +32,7 @@ const TabsCard = () => {
     {
       key: 'tab1',
       img: img1,
-      desc: "Asignación / Cambio de PIN"
+      desc: "Asignación/Cambio de PIN"
     },
     {
       key: 'tab2',
@@ -44,12 +42,11 @@ const TabsCard = () => {
     {
       key: 'tab3',
       img: img3,
-      desc: "Bloqueo de Tarjeta"
+      desc: "Bloqueo/Desbloqueo Tarjeta"
     },
     {
       key: 'tab4',
       img: img3,
-      // desc: "Modificación de Límite de Crédito"
       desc: "Límite de Crédito"
     },
     {
@@ -78,18 +75,18 @@ const TabsCard = () => {
     },
   ];
 
-  const achJourney = [
+  const infoJourney = [
     {
       key: 'init',
       content: <Verify />,
     },
     {
-      key: 'unlock',
+      key: 'auth',
       content: <Unlock />,
     },
     {
-      key: 'agreement',
-      content: <EnableACH />,
+      key: 'unlock',
+      content: <InfoUpdater />,
     },
     {
       key: 'success',
@@ -104,7 +101,6 @@ const TabsCard = () => {
     },
     {
       key: 'reset',
-      // content: <ResetPassword />,
       content: <Unlock />,
     },
     {
@@ -158,7 +154,7 @@ const TabsCard = () => {
 
   const journeys = {
     tab1: unlockJourney,
-    tab2: achJourney,
+    tab2: infoJourney,
     tab3: blockJourney,
     tab4: limitUpdater,
     tab5: queryMovements

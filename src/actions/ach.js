@@ -185,6 +185,51 @@ export const setLimitCard = (identity, token, card, amount) => {
     }
 }
 
+export const setUserInfo = (identity, token, userInfo) => {
+    return async( dispatch ) => {
+        
+        let { unlockUser : req } = requests;
+        req.request.header.transaction = 2011;
+        req.request.header.step = 3;
+        req.request.header.token = token;
+        
+        req.request.data.id = identity;
+        req.request.data.addressHouse = userInfo.address;
+        req.request.data.phoneHouse = userInfo.telephone;
+        req.request.data.phoneWork = userInfo.telephone;
+        req.request.data.phoneMobile = userInfo.mobile;
+        req.request.data.maritalStatus = userInfo.workAddress;
+        req.request.data.addressWork = userInfo.workAddress;
+        req.request.data.state = '?';
+        req.request.data.city = '?';
+        req.request.data.addressEC = '?';
+        req.request.data.emailEC = userInfo.address;
+
+        dispatch(setLoading());
+
+        try {
+            const resp = await unsecurefetch('ActualizaDatosClienteSysCard', req, 'POST');
+            const body = await resp.json();
+            const { response: { status, data } } = body;
+
+            // if (status.code === '0000') {
+            if (status.code === '9998') {
+                const { token } = status;
+                dispatch(getInfo({...data, token}));
+                dispatch(updateStep(3));
+                dispatch(unsetError());
+            } else {
+                dispatch(setError(status.message));
+            }
+            dispatch(setLoading());
+        } catch (err) {
+            console.log('catch error: ', err);
+            dispatch(setLoading());
+            dispatch(setError(err + ''));
+        }
+    }
+}
+
 export const setPin = (identity, token, card, pin) => {
     return async( dispatch ) => {
         
