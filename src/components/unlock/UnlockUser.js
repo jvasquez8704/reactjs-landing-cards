@@ -46,7 +46,7 @@ const UnlockUser = () => {
             <CustomInput fieldName="username"
                 iLabel="Usuario Atlántida Online"
                 errMjs="Por favor ingresa tu usuario"
-                iPlaceholder="Ingresa tu usuarios"
+                iPlaceholder="Ingresa tu usuario"
                 ihandleInputChange={handleInputChange}
             />
             <CustomInput fieldName="token"
